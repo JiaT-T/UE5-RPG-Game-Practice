@@ -2,6 +2,8 @@
 
 这是一个基于 Unreal Engine 5.6 的第三人称 RPG 原型项目，主要使用蓝图完成角色控制、近战战斗、装备、任务、AI、UI 和开放世界场景相关功能。
 
+以下功能清单保留原开发记录。实现主要位于二进制 Blueprint、动画和关卡资产中；2026 年 9 月整理只检查了项目结构、配置与资产路径，没有在 UE Editor 中验收这些玩法。第三方资源的来源与公开再分发权限仍需核实，见文末资源清单。
+
 ## 已实现功能
 
 ### 角色控制
@@ -81,6 +83,37 @@ Content/AfricanAnimalsPack/     动物角色、动画、材质和音效资源
 - 主要实现方式：Blueprint
 - 输入系统：Enhanced Input
 - 已启用插件：Motion Warping、Water、Landmass、Gameplay StateTree、Modeling Tools Editor Mode
+
+## 打开与验证
+
+1. 获取完整工程，使用与 `RPG_Practice.uproject` 中 `EngineAssociation` 匹配的 **UE 5.6** 打开。项目没有原生 C++ 模块，不需要为本仓库构建独立 Source target。
+2. 保持上述插件可用，等待资源加载和 Shader 编译完成。启动/默认关卡由 `Config/DefaultEngine.ini` 配置为 `/Game/ThirdPerson/Lvl_ThirdPerson`。
+3. 在 Content Browser 中可打开 `/Game/Levels/Action_Test`，或检查 `/Game/Levels/Desert`、`Desert1`。不同关卡的资源和蓝图配置需要分别验证。
+4. 用 Play in Editor 检查角色输入、战斗、装备/任务 UI 与 AI；现有 README 功能清单不能替代这一步。
+
+World Partition 的 `Content/__ExternalActors__/`、`Content/__ExternalObjects__/` 是持久关卡数据，应随工程保留。缺失第三方资源不能靠忽略错误后保存关卡来修复；需要从合法来源恢复匹配依赖。
+
+本次环境没有匹配的 UE 5.6 Editor。已核对项目版本、启用插件、配置关卡与对应资产存在；未验证 Editor 打开、Shader 编译、打包或 gameplay。
+
+## 仓库体积与缓存
+
+本次只从当前版本控制 tree 移除了 `DerivedDataCache/VT/` 中 **5 个生成缓存文件，共 1,627,828 bytes**，并将根目录缓存规则改为 `/DerivedDataCache/`。UE 会按需在本机重建这些缓存。
+
+当前项目主要体积来自模型、纹理、动画等 Content 资源。移除这几个缓存不会明显缩小现有 clone；旧缓存与资源版本仍保存在 Git 历史中。本次没有改写历史、迁移 LFS、强推或删除 Content。后续若要减小历史体积，应先确定哪些资产有权公开、哪些需从合法依赖来源获取，再单独评估历史清理方案。
+
+## 第三方资源与依赖来源
+
+当前仓库没有根目录许可证，也没有完整的资源购买、下载来源或许可清单。下面列出实际存在的资源目录；目录名是来源核实的入口，不是授权证明。
+
+| 目录 | 需要补充的依据 |
+| --- | --- |
+| `Content/Fab/Megascans/` | 获取渠道、获取时间、具体资产与适用条款、是否允许源资产公开分发 |
+| `Content/MOUT_Arabian/` | 环境包来源、权利人和公开再分发许可 |
+| `Content/AfricanAnimalsPack/` | 动物模型、动画、音效的包来源及许可 |
+| `Content/PN_Banana/` | 植被包来源与许可 |
+| `Content/Characters/`, `Weapons/`, `Armor/`, `Audio/` | 各模型、动画、纹理、音乐/音效的原作者与使用范围 |
+
+公开仓库中的现有文件不代表可以再次分发。确认权限前，不为这些内容添加 MIT 等统一授权。资源权利确认后，可以整理逐项依赖清单；改为 private、移除第三方资产或另建只包含自主 Blueprint/Source 的展示，需要由仓库所有者决定。
 
 ## 当前状态
 
