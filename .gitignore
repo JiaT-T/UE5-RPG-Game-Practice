@@ -2,7 +2,9 @@
 Binaries/*
 Intermediate/*
 Saved/*
-DerivedDataCache/*
+# Generated virtual-texture/shader cache; previously tracked entries were removed
+# from the current tree. Existing Git history is intentionally preserved.
+/DerivedDataCache/
 Build/*
 
 # 忽略自动生成的 VS 文件
